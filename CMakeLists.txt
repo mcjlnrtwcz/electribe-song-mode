@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.7.2)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Ofast")
 
-project(patternSelect)
+project(eletribe-song-mode)
 
 set(PROJECT_LINK_LIBS librtmidi.a)
 link_directories(/Users/mcjlnrtwcz/Projects/PatternSelect/Libs/rtmidi-2.1.1/.libs)
@@ -23,7 +23,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${FLTK_LINK_FLAGS}")
 include_directories(./include)
 file(GLOB SOURCES "src/*.cpp")
 
-add_executable(PatSelleck PatSelleck.cpp ${SOURCES})
-target_link_libraries(PatSelleck ${PROJECT_LINK_LIBS})
+add_executable(eletribe-song-mode eletribe-song-mode.cpp ${SOURCES})
+target_link_libraries(eletribe-song-mode ${PROJECT_LINK_LIBS})
 
-install(TARGETS PatSelleck DESTINATION bin)
+install(TARGETS eletribe-song-mode DESTINATION bin)
