@@ -12,7 +12,7 @@
 
 GUI::GUI(std::shared_ptr<Worker> a_worker) :
     m_worker(a_worker),
-    m_window(std::make_shared<Fl_Window>(176, 48, "Pat Selleck 0.2.0")) {
+    m_window(std::make_shared<Fl_Window>(176, 48, "electribe-song-mode")) {
     Fl_Button *openBtn = new Fl_Button(8, 8, 32, 32, "@fileopen");
     openBtn->callback([](Fl_Widget *w, void *instance) {
             ((GUI *)instance)->m_worker->setSequencePath(fl_file_chooser("", "*.json", ""));
@@ -56,7 +56,9 @@ GUI::GUI(std::shared_ptr<Worker> a_worker) :
 
     m_deviceDialog->end();
 
-    deviceBtn->callback([](Fl_Widget *w, void *instance) { ((GUI *)instance)->m_deviceDialog->show(); }, (void *)this);
+    deviceBtn->callback([](Fl_Widget *w, void *instance) {
+            ((GUI *)instance)->m_deviceDialog->show();
+        }, (void *)this);
 }
 
 void GUI::run() {
