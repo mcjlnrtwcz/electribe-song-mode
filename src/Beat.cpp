@@ -1,5 +1,7 @@
 #include "Beat.hpp"
 
+#include "spdlog/spdlog.h"
+
 #include <string>
 
 Beat::Beat() {
@@ -33,12 +35,12 @@ void Beat::tick() {
         } else if (m_quater > 0 && m_quater < 4) {
             m_quater++;
         } else {
-            // Something went terribly wrong.
+            spdlog::get("logger")->warn("Cannot advance clock");
         }
     } else if (m_clock > 0 && m_clock < 24) {
         m_clock++;
     } else {
-        // Something went terribly wrong.
+        spdlog::get("logger")->warn("Clock out of range");
     }
 }
 

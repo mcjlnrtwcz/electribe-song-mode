@@ -6,7 +6,6 @@
 #include <fstream>
 #include <string>
 
-
 void Sequence::loadData(std::string a_path) {
     // Clear previous sequence data.
     m_patternList.clear();
@@ -29,7 +28,7 @@ void Sequence::loadData(std::string a_path) {
         m_patternList.insert(
             m_patternList.begin(),
             Pattern(pattern["id"].GetInt(),
-            pattern["name"].GetString(), Beat(m_totalMeasures, 4, 1)));
+                    pattern["name"].GetString(), Beat(m_totalMeasures, 4, 1)));
         m_totalMeasures += pattern["length"].GetInt() * pattern["repeat"].GetInt();
     }
 }

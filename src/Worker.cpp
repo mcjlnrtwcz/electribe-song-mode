@@ -3,13 +3,13 @@
 #include "Sequence.hpp"
 #include "Worker.hpp"
 
-#include <iomanip>  // Temporary.
-#include <iostream>  // Debug.
+#include "spdlog/spdlog.h"
+
 #include <memory>
-#include <string>  // Temporary.
+#include <string>
 
 void onNextPattern(std::string beat, unsigned int patternID, std::string patternName) {
-    std::cout << "[DEBUG] [" << beat << "] Changing pattern to " << std::setfill('0') << std::setw(3) << patternID << " " << patternName << "\n";
+    spdlog::get("logger")->info("[{}] Changing pattern to id: {}, name: {}", beat, patternID,patternName);
 }
 
 Worker::Worker() :
@@ -32,7 +32,7 @@ void Worker::work() {
             m_sequence.loadData(m_path);
             m_heart = Heart(m_sequence, m_midiOutput, onNextPattern);
             m_heart.run();
-            // std::cout << "[DEBUG] Heart finished.\n";
+            spdlog::get("logger")->debug("Worker finished.");
             m_jobScheduled = false;
         }
     }
@@ -41,13 +41,13 @@ void Worker::work() {
 void Worker::startJob() {
     if (!m_jobScheduled) {
         m_jobScheduled = true;
-        // std::cout << "[DEBUG] New job started.\n";
+        spdlog::get("logger")->debug("New job started.");
     }
 }
 
 void Worker::stopJob() {
     if (m_jobScheduled) {
         m_heart.requestStop();
-        // std::cout << "[DEBUG] Stop requested.\n";
+        spdlog::get("logger")->debug("Stop requested.");
     }
 }

@@ -3,7 +3,8 @@
 #include "MIDIOutput.hpp"
 #include "Sequence.hpp"
 
-#include <iostream>  // Debug.
+#include "spdlog/spdlog.h"
+
 #include <chrono>
 #include <functional>
 #include <thread>
@@ -17,8 +18,7 @@ Heart::Heart(Sequence a_sequence, std::shared_ptr<MIDIOutput> a_midiOutput, std:
     m_interval(static_cast<int>(60.0 / m_sequence.getBPM() / 24.0 * 1000000)),
     onNextPattern(a_onNextPattern),
     m_midiOutput(a_midiOutput) {
-    // Empty.
-    // std::cout << "[DEBUG] New heart created. Sequence size: " << m_sequence.length() << "\n";
+    spdlog::get("logger")->debug("New heart created. Sequence size: {}", m_sequence.length());
 }
 
 void Heart::run() {
@@ -29,13 +29,13 @@ void Heart::run() {
     // Send one measure of sync.
     Beat initialMeasure(1, 1, 1);
     while (m_currentBeat < initialMeasure) {
-        // std::cout << m_currentBeat.toString() << ", " << initialMeasure.toString() << "\n";
+        spdlog::get("logger")->debug("[{}] {}", m_currentBeat.toString(), initialMeasure.toString());
         pump();
     }
 
     m_midiOutput->startPlayback();
     while (m_currentBeat < lastBeat && !m_stopRequested) {
-        // std::cout << m_currentBeat.toString() << ", next on: " << m_sequence.currentPatternStart().toString() << "\n";
+        spdlog::get("logger")->debug("[{}] next pattern on {}", m_currentBeat.toString(), m_sequence.currentPatternStart().toString());
         if (m_currentBeat == m_sequence.currentPatternStart()) {
             nextPattern();
         }
