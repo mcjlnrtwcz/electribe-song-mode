@@ -1,6 +1,7 @@
 #include "MIDIOutput.hpp"
 
 #include "RtMidi.h"
+#include "spdlog/spdlog.h"
 
 #include <memory>
 #include <string>
@@ -40,7 +41,7 @@ bool MIDIOutput::selectDevice(unsigned int a_deviceID) {
             m_midiOutput->openPort(m_deviceID);
             return true;
         } catch (RtMidiError &error) {
-            // error.printMessage();
+            spdlog::get("logger")->warn("RtMidi error: {}", error.getMessage());
             return false;
         }
     }
@@ -53,7 +54,7 @@ bool MIDIOutput::sendSync() {
         m_midiOutput->sendMessage(&message);
         return true;
     } catch (RtMidiError &error) {
-        // error.printMessage();
+        spdlog::get("logger")->warn("RtMidi error: {}", error.getMessage());
         return false;
     }
 }
@@ -75,7 +76,7 @@ bool MIDIOutput::selectPattern(unsigned int a_pattern) {
     try {
         m_midiOutput->sendMessage(&message);
     } catch (RtMidiError &error) {
-        // error.printMessage();
+        spdlog::get("logger")->warn("RtMidi error: {}", error.getMessage());
         return false;
     }
     message.clear();
@@ -85,7 +86,7 @@ bool MIDIOutput::selectPattern(unsigned int a_pattern) {
     try {
         m_midiOutput->sendMessage(&message);
     } catch (RtMidiError &error) {
-        // error.printMessage();
+        spdlog::get("logger")->warn("RtMidi error: {}", error.getMessage());
         return false;
     }
 
@@ -97,7 +98,7 @@ bool MIDIOutput::selectPattern(unsigned int a_pattern) {
         m_midiOutput->sendMessage(&message);
         return true;
     } catch (RtMidiError &error) {
-        // error.printMessage();
+        spdlog::get("logger")->warn("RtMidi error: {}", error.getMessage());
         return false;
     }
 }
@@ -109,7 +110,7 @@ bool MIDIOutput::startPlayback() {
         m_midiOutput->sendMessage(&message);
         return true;
     } catch (RtMidiError &error) {
-        // error.printMessage();
+        spdlog::get("logger")->warn("RtMidi error: {}", error.getMessage());
         return false;
     }
 }
@@ -121,7 +122,7 @@ bool MIDIOutput::stopPlayback() {
         m_midiOutput->sendMessage(&message);
         return true;
     } catch (RtMidiError &error) {
-        // error.printMessage();
+        spdlog::get("logger")->warn("RtMidi error: {}", error.getMessage());
         return false;
     }
 }

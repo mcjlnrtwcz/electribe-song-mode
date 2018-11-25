@@ -6,7 +6,6 @@
 #include <fstream>
 #include <string>
 
-
 void Sequence::loadData(std::string a_path) {
     // Clear previous sequence data.
     m_patternList.clear();

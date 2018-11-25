@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13.0)
 include(FetchContent)
 include(ExternalProject)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Weverything -Ofast")
 
 project(electribe-song-mode)
@@ -65,11 +65,24 @@ ExternalProject_Add(
 )
 set(rapidjson_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/rapidjson/src/rapidjson/include)
 
+ExternalProject_Add(
+    spdlog
+    PREFIX ${CMAKE_CURRENT_BINARY_DIR}/spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog.git
+    GIT_TAG v1.2.1
+    CONFIGURE_COMMAND ""
+    BUILD_COMMAND ""
+    BUILD_IN_SOURCE 1
+    INSTALL_COMMAND ""
+)
+set(spdlog_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/spdlog/src/spdlog/include)
+
 # Prepare executable
 
 include_directories(${fltk_INCLUDE_DIRS})
 include_directories(${rtmidi_INCLUDE_DIRS})
 include_directories(${rapidjson_INCLUDE_DIRS})
+include_directories(${spdlog_INCLUDE_DIRS})
 include_directories(./include)
 
 file(GLOB SOURCES "src/*.cpp")
@@ -77,6 +90,8 @@ add_executable(electribe-song-mode electribe-song-mode.cpp ${SOURCES})
 
 add_dependencies(electribe-song-mode rtmidi)
 add_dependencies(electribe-song-mode fltk)
+add_dependencies(electribe-song-mode rapidjson)
+add_dependencies(electribe-song-mode spdlog)
 
 target_link_libraries(electribe-song-mode ${rtmidi_LINK_LIBS} ${fltk_LINK_LIBS})
 install(TARGETS electribe-song-mode DESTINATION bin)
