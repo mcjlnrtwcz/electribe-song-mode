@@ -14,6 +14,13 @@ On macOS you can get them with `brew install autoconf automake libtool `.
 bash build.sh
 ```
 
+## Code style
+
+Use `astyle`
+```
+astyle -A2 -n **/*.cpp
+```
+
 ## Run
 ```
 cd build
